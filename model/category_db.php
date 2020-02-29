@@ -12,7 +12,7 @@
     function get_category_name($categoryID) {
         global $db;
         if ($categoryID == NULL || $categoryID == FALSE ) {
-            //If the ID is null then it will do nothing. I have to leave this here as it will give a non-fatal error if I don't 
+            //If the ID is null then it will do nothing. 
         } else {
             $query = 'SELECT * FROM categories WHERE categoryID = :categoryID';
             $statement = $db->prepare($query);
@@ -20,8 +20,12 @@
             $statement->execute();
             $category = $statement->fetch();
             $statement->closeCursor();
-            $catName = $category['categoryName'];
-            return $catName;
+            if($category == NULL || $category == FALSE) {
+                return 'None';
+            } else {
+                $catName = $category['categoryName'];
+                return $catName;
+            }
         }
     }
     //Add a category to the database
